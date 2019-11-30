@@ -12,15 +12,24 @@ const HabitSchema = new Schema({
     default: Date.now
   },
   frequency: {
-    type: String
+    type: String,
+    required: true
+  },
+  target: {
+    type: Number,
+    required: true
   },
   completed: {
+    type: Number,
+    required: true
+  },
+  lastUpdated: {
     type: Array,
-    default: []
+    required: true
   },
   streak: {
     type: Number,
-    default: 0
+    required: true
   }
 })
 
