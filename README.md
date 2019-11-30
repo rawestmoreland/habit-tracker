@@ -1,2 +1,2 @@
-# habit-tracker
+# Habicker
 A habit tracker built with MERN
