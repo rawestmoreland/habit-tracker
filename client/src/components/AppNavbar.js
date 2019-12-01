@@ -30,7 +30,7 @@ class AppNavbar extends Component {
   }
 
   render() {
-    const { isAuthenticated, user } = this.props.auth
+    const { isAuthenticated } = this.props.auth
 
     const guestLinks = (
       <Fragment>
@@ -47,7 +47,7 @@ class AppNavbar extends Component {
       <Fragment>
         <NavItem>
           <span className="navbar-text mr-3">
-            <strong>{user && `Welcome ${user.name}`}</strong>
+            <strong>{`Welcome`}</strong>
           </span>
         </NavItem>
         <NavItem>

@@ -24,6 +24,25 @@ class LoginModal extends Component {
     msg: null
   }
 
+  componentDidUpdate(prevProps) {
+    const { error } = this.props
+    if (error !== prevProps.error) {
+      // Check for register error
+      if (error.id === 'LOGIN_FAIL') {
+        this.setState({ msg: error.msg.msg })
+      } else {
+        this.setState({ msg: null })
+      }
+    }
+
+    // If authenticated, close modal
+    if (this.state.modal) {
+      if (this.props.isAuthenticated) {
+        this.toggle()
+      }
+    }
+  }
+
   static propTypes = {
     isAuthenticated: PropTypes.bool,
     error: PropTypes.object.isRequired,
@@ -45,6 +64,20 @@ class LoginModal extends Component {
     })
   }
 
+  onSubmit = e => {
+    e.preventDefault()
+
+    const { email, password } = this.state
+
+    const user = {
+      email,
+      password
+    }
+
+    // Attempt to login
+    this.props.login(user)
+  }
+
   render() {
     return (
       <div>
@@ -52,7 +85,11 @@ class LoginModal extends Component {
           Login
         </NavLink>
 
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+        <Modal
+          isOpen={this.state.modal}
+          toggle={this.toggle}
+          centered={true}
+        >
           <ModalHeader toggle={this.toggle}>Login</ModalHeader>
           <ModalBody>
             {this.state.msg && (
@@ -78,7 +115,13 @@ class LoginModal extends Component {
                   className="mb-3"
                   onChange={this.onChange}
                 />
-                <Button>Login</Button>
+                <Button
+                  color="dark"
+                  style={{ marginTop: '2rem' }}
+                  block
+                >
+                  Login
+                </Button>
               </FormGroup>
             </Form>
           </ModalBody>

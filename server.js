@@ -24,6 +24,7 @@ mongoose
 // Use routes
 app.use('/api/habits', require('./routes/api/habits'))
 app.use('/api/users', require('./routes/api/users'))
+app.use('/api/auth', require('./routes/api/auth'))
 
 // Serve static assets if in producation
 if (process.env.NODE_ENV === 'production') {

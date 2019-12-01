@@ -69,12 +69,15 @@ export const register = ({ email, password }) => dispatch => {
 // Login user
 export const login = ({ email, password }) => dispatch => {
   // Header
-  const config = { headers: { 'Content-Type': 'application/json' } }
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
 
   // Request body
   const body = JSON.stringify({ email, password })
 
-  // Send the request
   axios
     .post('/api/auth', body, config)
     .then(res =>
@@ -104,13 +107,19 @@ export const logout = () => {
   }
 }
 
+// Setup config / headers in token
 export const tokenConfig = getState => {
+  // Get token from local storage
   const token = getState().auth.token
 
   // Headers
-  const config = { headers: { 'Content-Type': 'application/json' } }
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
 
-  // If token, add token to headers
+  // If token, add to headers
   if (token) {
     config.headers['x-auth-token'] = token
   }
