@@ -57,7 +57,7 @@ class AppNavbar extends Component {
     )
     return (
       <div>
-        <Navbar color="dark" dark expand="sm" className="mb-5">
+        <Navbar color="dark" dark expand="sm" className="sticky-top">
           <Container>
             <NavbarBrand href="/">Habicker</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />

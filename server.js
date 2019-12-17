@@ -26,7 +26,7 @@ app.use('/api/habits', require('./routes/api/habits'))
 app.use('/api/users', require('./routes/api/users'))
 app.use('/api/auth', require('./routes/api/auth'))
 
-// Serve static assets if in producation
+// Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
   app.use(express.static('client/build'))
