@@ -1,26 +1,72 @@
+import { Button, ButtonGroup, Fab } from '@material-ui/core'
+import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab'
+import AddIcon from '@material-ui/icons/Add'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
-  NavLink,
-  Navbar,
-  Nav,
+  Col,
   Container,
-  NavItem,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Alert,
   Form,
   FormGroup,
+  Input,
   Label,
-  Input
+  Modal,
+  ModalBody,
+  ModalHeader,
+  Nav,
+  Navbar,
+  NavItem,
+  Row
 } from 'reactstrap'
-import { Fab, ButtonGroup, Button } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
+import { clearErrors } from '../actions/errorActions'
+import { addHabit } from '../actions/habitActions'
 
 class HabitModal extends Component {
   state = {
-    modal: true,
-    name: ''
+    modal: false,
+    name: '',
+    frequency: 'day',
+    target: null,
+    msg: null
+  }
+
+  static propTypes = {
+    isAuthenticated: PropTypes.bool,
+    user: PropTypes.object.isRequired,
+    error: PropTypes.object.isRequired,
+    addHabit: PropTypes.func.isRequired,
+    clearErrors: PropTypes.func.isRequired
+  }
+
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+
+  onSubmit = e => {
+    e.preventDefault()
+
+    const { name, frequency, target } = this.state
+
+    const { user } = this.props.auth
+
+    const owner = user.id || user._id
+
+    // Create a habit object
+    const newHabit = {
+      name,
+      frequency,
+      target,
+      owner
+    }
+
+    // Attempt to add habit to db
+    this.props.addHabit(newHabit)
+
+    // Close the modal
+    if (this.state.msg === null) {
+      this.toggle()
+    }
   }
 
   toggle = () => {
@@ -32,22 +78,29 @@ class HabitModal extends Component {
   }
 
   render() {
+    const { isAuthenticated, user } = this.props.auth
     return (
       <>
-        <Navbar className="fixed-bottom" style={{ bottom: '5%' }}>
-          <Container className="justify-content-end">
-            <Nav>
-              <NavItem onClick={this.toggle} className="mr-3">
-                <Fab
-                  color="primary"
-                  style={{ border: 'none', outline: 'none' }}
-                >
-                  <AddIcon />
-                </Fab>
-              </NavItem>
-            </Nav>
-          </Container>
-        </Navbar>
+        {isAuthenticated && (
+          <Navbar className="fixed-bottom" style={{ bottom: '5%' }}>
+            <Container className="justify-content-end">
+              <Nav>
+                <NavItem onClick={this.toggle} className="mr-3">
+                  <Fab
+                    style={{
+                      border: 'none',
+                      outline: 'none',
+                      backgroundColor: 'rgb(51, 58, 65)',
+                      color: 'white'
+                    }}
+                  >
+                    <AddIcon />
+                  </Fab>
+                </NavItem>
+              </Nav>
+            </Container>
+          </Navbar>
+        )}
 
         <Modal
           isOpen={this.state.modal}
@@ -55,9 +108,9 @@ class HabitModal extends Component {
           centered={true}
           scrollable={true}
         >
-          <ModalHeader toggle={this.toggle}>New Habit</ModalHeader>
+          <ModalHeader>New Habit</ModalHeader>
           <ModalBody>
-            <Form>
+            <Form onSubmit={this.onSubmit}>
               <FormGroup>
                 <Label className="ml-1" for="name">
                   Habit Name
@@ -68,7 +121,7 @@ class HabitModal extends Component {
                   name="name"
                   id="name"
                   className="mb-3"
-                  onChange={this.onchange}
+                  onChange={this.onChange}
                 />
                 <Label className="ml-1" for="frequency">
                   Goal Period
@@ -76,38 +129,96 @@ class HabitModal extends Component {
                 <br />
                 <ButtonGroup variant="text" className="mb-3">
                   <Button
-                    name="daily"
+                    style={{ outline: 'none' }}
+                    name="frequency"
                     id="daily"
-                    value="daily"
-                    onClick={this.onChange}
+                    value="day"
+                    onClick={() =>
+                      this.setState({
+                        frequency: 'day'
+                      })
+                    }
                   >
                     DAILY
                   </Button>
                   <Button
-                    name="weekly"
+                    style={{ outline: 'none' }}
+                    name="frequency"
                     id="weekly"
-                    value="weekly"
-                    onClick={this.onChange}
+                    value="week"
+                    onClick={() =>
+                      this.setState({
+                        frequency: 'week'
+                      })
+                    }
                   >
                     WEEKLY
                   </Button>
                   <Button
-                    name="monthly"
+                    style={{ outline: 'none' }}
+                    name="frequency"
                     id="monthly"
-                    value="monthly"
-                    onClick={this.onChange}
+                    value="month"
+                    onClick={() =>
+                      this.setState({
+                        frequency: 'month'
+                      })
+                    }
                   >
                     MONTHLY
                   </Button>
                   <Button
-                    name="yearly"
+                    style={{ outline: 'none' }}
+                    name="frequency"
                     id="yearly"
-                    value="yearly"
-                    onClick={this.onChange}
+                    value="year"
+                    onClick={() =>
+                      this.setState({
+                        frequency: 'year'
+                      })
+                    }
                   >
                     YEARLY
                   </Button>
                 </ButtonGroup>
+                <br />
+                <Label className="ml-1" for="target">
+                  Set Your Goal
+                </Label>
+                <Container className="p-0">
+                  <Row>
+                    <Col className="col-4">
+                      <Input
+                        type="number"
+                        name="target"
+                        id="target"
+                        className="mb-3"
+                        onChange={this.onChange}
+                      />
+                    </Col>
+                    <Col className="col-8 pl-0">
+                      <p className="pt-1">
+                        or more times per {this.state.frequency}
+                      </p>
+                    </Col>
+                  </Row>
+                </Container>
+                <Button
+                  disableElevation
+                  className="mr-3"
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  save
+                </Button>
+                <Button
+                  disableElevation
+                  variant="contained"
+                  onClick={this.toggle}
+                >
+                  cancel
+                </Button>
               </FormGroup>
             </Form>
           </ModalBody>
@@ -117,4 +228,12 @@ class HabitModal extends Component {
   }
 }
 
-export default HabitModal
+const mapStateToProps = state => ({
+  user: state.auth,
+  auth: state.auth,
+  error: state.error
+})
+
+export default connect(mapStateToProps, { addHabit, clearErrors })(
+  HabitModal
+)

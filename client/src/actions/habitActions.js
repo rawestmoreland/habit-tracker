@@ -5,6 +5,8 @@ import {
   DELETE_HABIT,
   ITEMS_LOADING
 } from './types'
+import { tokenConfig } from './authActions'
+import { returnErrors } from './errorActions'
 
 export const getHabits = () => dispatch => {
   dispatch(setItemsLoading())
@@ -17,4 +19,22 @@ export const getHabits = () => dispatch => {
       })
     )
     .catch(err => console.log(err))
+}
+
+export const addHabit = habit => (dispatch, getState) => {
+  axios
+    .post('/api/habits', habit, tokenConfig(getState))
+    .then(res =>
+      dispatch({
+        type: ADD_HABIT,
+        payload: res.data
+      })
+    )
+    .catch(err => {
+      dispatch(returnErrors(err.response.data, err.response.status))
+    })
+}
+
+export const setItemsLoading = () => {
+  return { type: ITEMS_LOADING }
 }

@@ -3,6 +3,10 @@ const Schema = mongoose.Schema
 
 // Create schema
 const HabitSchema = new Schema({
+  owner: {
+    type: String,
+    required: true
+  },
   name: {
     type: String,
     required: true
@@ -21,10 +25,6 @@ const HabitSchema = new Schema({
   },
   completed: {
     type: Number,
-    required: true
-  },
-  lastUpdated: {
-    type: Array,
     required: true
   },
   streak: {

@@ -1,0 +1,20 @@
+#myProgress {
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.progress-inner {
+  padding-left: 10px;
+}
+
+.name-row {
+  font-size: 16px;
+  color: #464646;
+  font-weight: bold;
+}
+
+.freq-row {
+  font-weight: 700;
+  color: #505050;
+}
+/*# sourceMappingURL=habitList.css.map */

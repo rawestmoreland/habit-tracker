@@ -18,11 +18,8 @@ class App extends Component {
       <Provider store={store}>
         <div className="App">
           <AppNavbar />
-          <Container
-            className="h-100 fixed-bottom"
-            style={{ top: 56 }}
-          >
-            <HabitList />
+          <HabitList />
+          <Container className="fixed-bottom" style={{ zIndex: 11 }}>
             <HabitModal />
           </Container>
         </div>

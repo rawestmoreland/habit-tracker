@@ -56,8 +56,8 @@ class AppNavbar extends Component {
       </Fragment>
     )
     return (
-      <div>
-        <Navbar color="dark" dark expand="sm" className="sticky-top">
+      <div style={{ zIndex: 12 }}>
+        <Navbar color="dark" dark expand="sm">
           <Container>
             <NavbarBrand href="/">Habicker</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
@@ -74,6 +74,7 @@ class AppNavbar extends Component {
 }
 
 const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
   auth: state.auth
 })
 

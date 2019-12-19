@@ -13,4 +13,20 @@ router.get('/', (req, res) => {
     .then(habits => res.json(habits))
 })
 
+// @route  POST api/habits
+// @desc   Add a new habit
+// @access Public until auth implemented
+router.post('/', (req, res) => {
+  const newHabit = new Habit({
+    name: req.body.name,
+    frequency: req.body.frequency,
+    target: req.body.target,
+    streak: 0,
+    completed: 0,
+    owner: req.body.owner
+  })
+
+  newHabit.save().then(habit => res.json(habit))
+})
+
 module.exports = router
