@@ -29,4 +29,31 @@ router.post('/', (req, res) => {
   newHabit.save().then(habit => res.json(habit))
 })
 
+// @route  Delete api/habits/id
+// @desc   Delete a habit
+// @access Public until auth implemented
+router.delete('/:id', (req, res) => {
+  Habit.findById(req.params.id)
+    .then(habit =>
+      habit.remove().then(() => res.json({ success: true }))
+    )
+    .catch(err => err.status(404).json({ success: false }))
+})
+
+router.put('/:id', (req, res) => {
+  console.log(req.params)
+  const data = {
+    name: req.body.name,
+    frequency: req.body.frequency,
+    target: req.body.target,
+    streak: req.body.streak,
+    completed: req.body.completed,
+    lastCompleted: req.body.lastCompleted,
+    owner: req.body.owner
+  }
+  Habit.findByIdAndUpdate(req.params.id, data)
+    .then(() => res.json({ success: true }))
+    .catch(err => err.status(404).json({ success: false }))
+})
+
 module.exports = router

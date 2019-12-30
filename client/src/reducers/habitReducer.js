@@ -1,6 +1,7 @@
 import {
   GET_HABITS,
   ADD_HABIT,
+  UPDATE_HABIT,
   DELETE_HABIT,
   ITEMS_LOADING
 } from '../actions/types'
@@ -18,6 +19,9 @@ export default function(state = initialState, action) {
         habits: action.payload,
         loading: false
       }
+    case UPDATE_HABIT:
+      console.log(JSON.stringify(action.payload))
+      return state
     case ADD_HABIT:
       return {
         ...state,

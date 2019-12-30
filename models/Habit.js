@@ -23,6 +23,9 @@ const HabitSchema = new Schema({
     type: Number,
     required: true
   },
+  lastCompleted: {
+    type: Date
+  },
   completed: {
     type: Number,
     required: true

@@ -1,20 +1,86 @@
 #myProgress {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   height: 50px;
   margin-bottom: 10px;
 }
 
+.progress-wrapper {
+  position: relative;
+}
+
+#progress-bar {
+  height: 100%;
+}
+
 .progress-inner {
-  padding-left: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  position: absolute;
+  width: 100%;
+}
+
+.inner-column {
+  width: 50%;
+  height: 100%;
+}
+
+.edit-column {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-right: 15px;
+}
+
+.edit-column h1 {
+  font-size: 2rem;
+  color: #4b4646;
+  margin: 0;
+  padding: 0;
 }
 
 .name-row {
+  padding: 0 1rem;
+}
+
+.name-row h5 {
   font-size: 16px;
-  color: #464646;
+  color: #4b4646;
   font-weight: bold;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
 }
 
 .freq-row {
   font-weight: 700;
   color: #505050;
+  padding: 0 1rem;
+}
+
+.edit-button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: auto;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  position: absolute;
 }
 /*# sourceMappingURL=habitList.css.map */

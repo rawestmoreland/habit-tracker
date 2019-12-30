@@ -21,6 +21,7 @@ import {
 } from 'reactstrap'
 import { clearErrors } from '../actions/errorActions'
 import { addHabit } from '../actions/habitActions'
+import '../styles/habitModal/habitModal.css'
 
 class HabitModal extends Component {
   state = {
@@ -79,6 +80,11 @@ class HabitModal extends Component {
 
   render() {
     const { isAuthenticated, user } = this.props.auth
+    const handleFrequency = (event, newFreq) => {
+      this.setState({
+        frequency: newFreq
+      })
+    }
     return (
       <>
         {isAuthenticated && (
@@ -127,7 +133,18 @@ class HabitModal extends Component {
                   Goal Period
                 </Label>
                 <br />
-                <ButtonGroup variant="text" className="mb-3">
+                <ToggleButtonGroup
+                  size="small"
+                  value={this.state.frequency}
+                  exclusive
+                  onChange={handleFrequency}
+                >
+                  <ToggleButton value="day">DAILY</ToggleButton>
+                  <ToggleButton value="week">WEEKLY</ToggleButton>
+                  <ToggleButton value="month">MONTHLY</ToggleButton>
+                  <ToggleButton value="year">YEARLY</ToggleButton>
+                </ToggleButtonGroup>
+                {/* <ButtonGroup variant="text" className="mb-3">
                   <Button
                     style={{ outline: 'none' }}
                     name="frequency"
@@ -155,6 +172,7 @@ class HabitModal extends Component {
                     WEEKLY
                   </Button>
                   <Button
+                    active
                     style={{ outline: 'none' }}
                     name="frequency"
                     id="monthly"
@@ -180,7 +198,7 @@ class HabitModal extends Component {
                   >
                     YEARLY
                   </Button>
-                </ButtonGroup>
+                </ButtonGroup> */}
                 <br />
                 <Label className="ml-1" for="target">
                   Set Your Goal
